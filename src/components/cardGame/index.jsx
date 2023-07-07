@@ -6,22 +6,24 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function CardGame() {
+import Sports from '../../assets/sports.avif';
+
+export default function CardGame(props) {
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ width: 280 }}>
             <CardMedia
-                sx={{ height: 140 }}
-                image="/static/images/cards/contemplative-reptile.jpg"
-                title="green iguana"
+                sx={{ height: 200 }}
+                image={Sports}
+                title={props.sportName}
             />
 
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {this.props.sportName}
+                    {props.sportName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
+                    Número de participantes: {props.capacity} <br/>
+                    Cadastrados: {props.registered}
                 </Typography>
             </CardContent>
 
