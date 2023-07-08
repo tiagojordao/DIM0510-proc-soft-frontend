@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import LoginPage from "../../components/header/index.jsx";
+import Footer from '../../components/footer/';
 
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -176,6 +177,7 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
+      <Footer/>
     </ThemeProvider>
   );
 }

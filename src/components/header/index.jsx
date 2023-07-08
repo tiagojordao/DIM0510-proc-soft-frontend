@@ -16,6 +16,7 @@ function Header() {
           <span className="first-menu">
             <a href="">Inicio</a>
             <a href="/jogos">Jogos</a>
+            <a href="/criar-partida">Criar Partida</a>
           </span>
           <span className="second-menu">
             <Button variant='outlined' href="/cadastrar" > Cadastrar </Button>

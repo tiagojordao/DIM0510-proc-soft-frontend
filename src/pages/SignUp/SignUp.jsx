@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import LoginPage from '../../components/header/index.jsx';
+import Footer from '../../components/footer/';
 
 function Copyright(props) {
   return (
@@ -131,6 +132,7 @@ export default function SignUp() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      <Footer/>
     </ThemeProvider>
   );
 }
