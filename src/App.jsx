@@ -5,6 +5,7 @@ import Header from './components/header/index.jsx';
 import Games from './pages/Games/Games.jsx';
 import SignIn from './pages/SignIn/SignIn.jsx';
 import SignUp from './pages/SignUp/SignUp.jsx';
+import CreateGame from './pages/CreateGame/CreateGame';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route Component={Header} path="/" exact />
         <Route Component={Games} path="/jogos" />
+        <Route Component={CreateGame} path="/criar-partida"/>
         <Route Component={SignIn} path="/entrar" />
         <Route Component={SignUp} path="/cadastrar" />
       </Routes>
