@@ -1,6 +1,8 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom';
 
+import api from './services/api.js';
+
 import Header from './components/header/index.jsx';
 import Games from './pages/Games/Games.jsx';
 import SignIn from './pages/SignIn/SignIn.jsx';
