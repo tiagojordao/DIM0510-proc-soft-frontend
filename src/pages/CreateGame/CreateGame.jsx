@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState } from 'react';
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +14,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import api from '../../services/api';
 
 import LoginPage from "../../components/header/index.jsx";
 import Footer from '../../components/footer/';
@@ -46,19 +50,33 @@ const modalidades = [
   { label: "Futebol" },
   { label: "Basquete" },
 ];
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const dataFormData = new FormData(event.currentTarget);
+    api.post('/match', {
+      horarioInicio: dataFormData.get('horarioInicio'),
+      horarioFinal: dataFormData.get('horarioFim'),
+      data: dataFormData.get('date'),
+      qtdParticipantes: dataFormData.get('quantidade'),
+      modalidade: dataFormData.get('modalidade'),
+      infos: dataFormData.get('detelhes')
+    }, {
+      headers: {
+        token: true
+      }
+    }).then((response) => {
+      console.log(response.data);
+    }).catch((err) => {
+      console.log(err);
+    })
   };
+
+  const [resp, setResp] = useState();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -112,20 +130,20 @@ export default function SignUp() {
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} md={12} lg={12}>
+              {/* <Grid item xs={12} md={12} lg={12}> */}
+              <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
+                  <TextField
                     label="Data"
-                    id="data"
-                    name="data"
+                    id="date"
+                    name="date"
+                    placeholder="dd/MM/yyyy"
+                    fullWidth
                     required
-                    inputFormat="dd/MM/yyyy"
-                    slotProps={{
-                      textField: { fullWidth: true, required: true },
-                    }}
                   />
                 </LocalizationProvider>
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
