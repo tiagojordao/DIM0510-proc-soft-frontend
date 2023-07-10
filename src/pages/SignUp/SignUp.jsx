@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
 import api from '../../services/api.js';
 
@@ -43,7 +44,10 @@ export default function SignUp() {
       nome: data.get('firstName') + " " + data.get('lastName'),
       email: data.get('email'),
       senha: data.get('password')
-    }) .then((response) => {setResp(response.data)})
+    }) .then((response) => {
+      setResp(response.data);
+      setCreated(true);
+    })
     .catch((err) => {
       console.log("Erro: " + err);
     })
@@ -51,6 +55,7 @@ export default function SignUp() {
 
   const [resp, setResp] = useState();
   const [checked, setChecked] = useState(false);
+  const [accountCreated, setCreated] = useState(false);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -65,6 +70,7 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
+          { accountCreated && <Alert onClose={() => {setCreated(!accountCreated)}}>Parabéns, Conta Criada!</Alert> }
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>

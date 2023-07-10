@@ -1,11 +1,40 @@
 import './Style.css'
 
+import CircularProgress from '@mui/material/CircularProgress';
+
+import React, { useState, useEffect } from 'react';
+import api from '../../services/api.js';
 
 import Header from '../../components/header/';
 import CardGame from '../../components/cardGame/';
 import Footer from '../../components/footer/';
 
 export default function Games() {
+
+    const [games, setGames] = useState([]);
+    const [isBusy, setBusy] = useState(true);
+
+    /**
+     * ComonentDidMount
+     */
+    useEffect(() => {
+
+        async function loadData() {
+            const result = await api.get('/matches', {
+                headers: {
+                    token: true
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+            setGames(result.data.games);
+            console.log(result.data.games);
+        }
+
+        loadData();
+        setBusy(false);
+    }, []);
+
     return (
         <>
             <Header/>
@@ -15,12 +44,16 @@ export default function Games() {
                 </div>
             </div>
             <div className="content negative-margin-content">
-                <CardGame sportName="Futebol" capacity="22" registered="18"/>
-                <CardGame sportName="Futebol" capacity="22" registered="18"/>
-                <CardGame sportName="Futebol" capacity="22" registered="18"/>
-                <CardGame sportName="Futebol" capacity="22" registered="18"/>
-                <CardGame sportName="Futebol" capacity="22" registered="18"/>
-                <CardGame sportName="Futebol" capacity="22" registered="18"/>
+                { games && games.map((game, index) => (
+                    <CardGame
+                        key={index} 
+                        sportName={game.modalidade}
+                        capacity={game.qtdParticipantes}
+                        gameStartTime={game.horarioInicio}
+                        gameDate={game.data}
+                        registered="18"
+                    />
+                )) }
             </div>
             <Footer/>
         </>

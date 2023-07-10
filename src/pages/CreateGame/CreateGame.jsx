@@ -14,6 +14,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Alert from '@mui/material/Alert';
 
 import api from '../../services/api';
 
@@ -71,12 +72,16 @@ export default function SignUp() {
       }
     }).then((response) => {
       console.log(response.data);
+      if(response.data.statusCode == 200) {
+        setCreated(true);
+      }
     }).catch((err) => {
       console.log(err);
     })
   };
 
   const [resp, setResp] = useState();
+  const [wasCreated, setCreated] = useState(false);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -91,6 +96,7 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
+          { wasCreated && <Alert onClose={() => {setCreated(!wasCreated)}}>Jogo foi Criado!</Alert> }
           <Typography component="h1" variant="h5">
             Criar Partida
           </Typography>

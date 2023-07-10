@@ -39,12 +39,16 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     api.post('/auth', {
       email: data.get('email'),
       senha: data.get('password')
     }) .then((response) => {
-      console.log(response.data);
       setResp(response.data);
+      if(response.status(200)) {
+        Cookies.set('token', true);
+        Cookies.set('id', response.data.id);
+      }
     })
     .catch((err) => {
       console.log("Erro: " + err);
@@ -52,6 +56,7 @@ export default function SignIn() {
   };
 
   const [resp, setResp] = useState();
+  const [isLogged, setLogged] = useState(false);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -66,6 +71,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
+          { isLogged && <Alert onClose={() => {setLogged(!isLogged)}}>Login Realizado!</Alert> }
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
