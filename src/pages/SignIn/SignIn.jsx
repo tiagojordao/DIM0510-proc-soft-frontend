@@ -30,8 +30,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
@@ -47,7 +45,7 @@ export default function SignIn() {
       setResp(response.data);
       if(response.status(200)) {
         Cookies.set('token', true);
-        Cookies.set('id', response.data.id);
+        Cookies.set('CPF', response.data.CPF);
       }
     })
     .catch((err) => {
