@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +14,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
+
+import api from '../../services/api.js';
 
 import LoginPage from '../../components/header/index.jsx';
 import Footer from '../../components/footer/';
@@ -19,11 +24,7 @@ import Footer from '../../components/footer/';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
+      {'Copyright © MatchMaker '}{new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -34,14 +35,27 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    api.post('/user', {
+      CPF: data.get('CPF'),
+      nome: data.get('firstName') + " " + data.get('lastName'),
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      senha: data.get('password')
+    }) .then((response) => {
+      setResp(response.data);
+      setCreated(true);
+    })
+    .catch((err) => {
+      console.log("Erro: " + err);
+    })
   };
+
+  const [resp, setResp] = useState();
+  const [checked, setChecked] = useState(false);
+  const [accountCreated, setCreated] = useState(false);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -56,11 +70,12 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
+          { accountCreated && <Alert onClose={() => {setCreated(!accountCreated)}}>Parabéns, Conta Criada!</Alert> }
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Cadastrar
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -71,7 +86,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Nome"
                   autoFocus
                 />
               </Grid>
@@ -80,7 +95,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Sobrenome"
                   name="lastName"
                   autoComplete="family-name"
                 />
@@ -89,8 +104,18 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  id="cpf"
+                  label="CPF"
+                  name="CPF"
+                  autoComplete="cpf"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   autoComplete="email"
                 />
@@ -100,7 +125,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Senha"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -108,8 +133,8 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  control={<Checkbox value="allowExtraEmails" color="primary" checked={checked} onClick={() => setChecked(!checked)}/>}
+                  label="Declaro que li e concordo com os termos de uso."
                 />
               </Grid>
             </Grid>
@@ -118,13 +143,14 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!checked}
             >
-              Sign Up
+              Cadastrar
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/entrar" variant="body2">
+                  Já tem uma conta? Entrar
                 </Link>
               </Grid>
             </Grid>
