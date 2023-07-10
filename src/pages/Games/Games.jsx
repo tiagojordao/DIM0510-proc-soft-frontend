@@ -51,7 +51,7 @@ export default function Games() {
                         capacity={game.qtdParticipantes}
                         gameStartTime={game.horarioInicio}
                         gameDate={game.data}
-                        registered="18"
+                        registered="0"
                     />
                 )) }
             </div>

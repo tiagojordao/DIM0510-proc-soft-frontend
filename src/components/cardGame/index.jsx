@@ -12,7 +12,7 @@ import Sports from '../../assets/sports.avif';
 
 export default function CardGame(props) {
 
-    const [part, setPart] = useState();
+    const [part, setPart] = useState(0);
     const [canParticipate, setParticipate] = useState(true);
 
     useState(() => {

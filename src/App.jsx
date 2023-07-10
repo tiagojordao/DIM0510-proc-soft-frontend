@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route Component={Header} path="/" exact />
+        <Route Component={SignIn} path="/" exact />
         <Route Component={Games} path="/jogos" />
         <Route Component={CreateGame} path="/criar-partida"/>
         <Route Component={SignIn} path="/entrar" />
